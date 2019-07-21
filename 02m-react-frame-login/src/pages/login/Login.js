@@ -48,9 +48,8 @@ class Login extends React.Component {
         <div className="m-login-row">
           <Button onClick={this.handleLogin.bind(this)}>登录</Button>
         </div>
-        <div className="m-login-row">
-          <Link to="/register" className="m-link">用户注册</Link>
-          <Link to="/forgot_password" className="m-link">忘记密码</Link>
+        <div>
+          <Link to="/register" className="m-register">注册</Link>
         </div>
 			</div>
     );
