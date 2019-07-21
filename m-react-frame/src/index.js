@@ -3,7 +3,9 @@ import ReactDOM from 'react-dom';
 import Routers from './router/index.js';
 import { BrowserRouter } from 'react-router-dom';  //路由
 import { Provider } from 'react-redux';
+import './utils/interceptors.js'
 import Store from './store/index.js';
+import 'antd/dist/antd.css';
 import './index.css';
 import * as serviceWorker from './serviceWorker';
 
