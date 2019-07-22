@@ -1,0 +1,20 @@
+.m-management{position: relative;display: flex;}
+.m-management-link{display:block;padding: 0 0 0 20px; line-height: 50px;font-size: 26px; color: #333333;}
+.m-management-link:hover{color: #f66f0c;}
+.m-management-link.active{color: #f66f0c;background: #8dc5db;}
+.m-sidebar{width: 200px;background: #dddddd;}
+.m-content-wrap{flex:1;border:1px solid #f66f0c;}
+
+
+
+
+
+
+
+
+
+
+
+
+
+

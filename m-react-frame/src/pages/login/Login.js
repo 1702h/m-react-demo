@@ -81,7 +81,10 @@ Object.assign(Login.prototype, {
     Api.login(data).then((res) => {
       if (res.code === keyCode.SUCCESS) {
         console.log(res)
-        this.props.history.push('/list')
+        localStorage.setItem('token', res.data.token)
+        localStorage.setItem('username', res.data.username)
+        //this.props.history.push('/list')
+        this.props.history.push('/management/file_upload')
       } else {
         this.getCaptcha()
       }

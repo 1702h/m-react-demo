@@ -4,7 +4,11 @@ const List = lazy(() => import('../pages/list/List.js'))
 const Register = lazy(() => import('../pages/login/Register.js'))
 const ForgotPassword = lazy(() => import('../pages/login/ForgotPassword.js'))
 const ResetPassword = lazy(() => import('../pages/login/ResetPassword.js'))
+const FileUpload = lazy(() => import('../pages/management/FileUpload.js'))
+const Banner = lazy(() => import('../pages/management/Banner.js'))
+const Article = lazy(() => import('../pages/management/Article.js'))
 
+//单页面路由
 const routerSingle = [
   {
     path: '/',
@@ -62,6 +66,41 @@ const routerSingle = [
   },    
 ];
 
+//后台管理
+const routerManagement = [
+  {
+    text: '文件上传',
+    path: '/management/file_upload',
+    exact: true,
+    component: () => (
+      <Suspense fallback={'loading...'}>
+        <FileUpload />
+      </Suspense>
+    )
+  },
+  {
+    text: '轮播图',
+    path: '/management/banner',
+    exact: true,
+    component: () => (
+      <Suspense fallback={'loading...'}>
+        <Banner />
+      </Suspense>
+    )
+  },
+  {
+    text: '文章',
+    path: '/management/article',
+    exact: true,
+    component: () => (
+      <Suspense fallback={'loading...'}>
+        <Article />
+      </Suspense>
+    )
+  },    
+]
+
 export default {
-  routerSingle
+  routerSingle,
+  routerManagement,
 }
