@@ -38,8 +38,8 @@ class Login extends React.Component {
             <Option value="zh-TW">繁體中文</Option>
           </Select>
         </div>
-        <div>
-          {intl.get('login.login')}{count}<button onClick={this.handleBtn.bind(this)}>按钮</button>
+        <div className="m-login-title">
+          {intl.get('login.loginTitle')}
         </div>
         <div className="m-login-row">
           <Input 
@@ -73,6 +73,9 @@ class Login extends React.Component {
           <Link to="/register" className="m-link">{intl.get('login.userRegister')}</Link>
           <Link to="/forgot_password" className="m-link">{intl.get('login.forgotPassword')}</Link>
         </div>
+        <div>
+          {intl.get('login.login')}{count}<button onClick={this.handleBtn.bind(this)}>按钮</button>
+        </div>        
 			</div>
     );
   }
