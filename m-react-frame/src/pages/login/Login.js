@@ -42,13 +42,23 @@ class Login extends React.Component {
           {intl.get('login.login')}{count}<button onClick={this.handleBtn.bind(this)}>按钮</button>
         </div>
         <div className="m-login-row">
-          <Input placeholder={intl.get('login.usernamePlaceholder')} value={username} onChange={this.handleInput.bind(this, 'username')}></Input>
+          <Input 
+            placeholder={intl.get('login.usernamePlaceholder')} 
+            value={username} 
+            ref={(input) => this.userNameInput = input}
+            onChange={this.handleInput.bind(this, 'username')}></Input>
         </div>
         <div className="m-login-row">
           <Input placeholder={intl.get('login.passwordPlaceholder')} type="password" value={password} onChange={this.handleInput.bind(this, 'password')}></Input>
         </div>
         <div className="m-login-row">
-          <Input className="m-login-input-catpcha" placeholder={intl.get('login.catpchaPlaceholder')} value={captcha} onChange={this.handleInput.bind(this, 'captcha')}></Input>
+          <Input 
+            className="m-login-input-catpcha" 
+            placeholder={intl.get('login.catpchaPlaceholder')} 
+            value={captcha}
+            ref={(input) => this.captchaInput = input}
+            onKeyDown={this.handleEnter.bind(this)} 
+            onChange={this.handleInput.bind(this, 'captcha')}></Input>
           <span 
             className="m-captcha" 
             dangerouslySetInnerHTML={{__html: captchaSvg}}
@@ -68,8 +78,10 @@ class Login extends React.Component {
   }
 }
 
+//生命周期
 Object.assign(Login.prototype, {
   componentDidMount() {
+    this.userNameInput.focus()
     this.getCaptcha()
     this.languageInit()
   },
@@ -95,6 +107,7 @@ Object.assign(Login.prototype, {
   }
 })
 
+//事件
 Object.assign(Login.prototype, {
   handleBtn() {
     let {count} = this.props
@@ -141,6 +154,12 @@ Object.assign(Login.prototype, {
     })
     localStorage.setItem('language', language);
     window.location.reload()     
+  },
+  handleEnter(e) {
+		if (e.keyCode === 13) {
+			this.handleLogin()
+			this.captchaInput.blur()
+		}    
   }
 })
 
