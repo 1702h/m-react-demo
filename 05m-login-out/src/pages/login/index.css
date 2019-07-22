@@ -1,5 +1,4 @@
 .m-login{position: absolute;top: 30%;left: 50%;width: 400px; transform: translate(-50%,-50%);}
-.m-language{text-align: right;}
 .m-login-row{margin: 20px 0 0;width: 100%;}
 .m-login-input-catpcha{display: inline-block!important;width: 200px!important;}
 .m-captcha{display: inline-block;margin: -14px 0 0 10px;width: 150px;vertical-align: top;}

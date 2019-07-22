@@ -1,14 +1,12 @@
 import React from 'react';
 import { connect } from 'react-redux'
 import { withRouter, Link } from 'react-router-dom'
-import { Button, Input, Select } from 'antd';
+import { Button, Input } from 'antd';
 import { jsEncrypt } from '../../utils/index.js'
-import intl from 'react-intl-universal'
 import Api from '../../api/index.js'
 import * as keyCode from '../../api/keyCode.js'
 import './index.css'
 
-const { Option } = Select
 class Login extends React.Component {
   constructor(props) {
     super(props)
@@ -17,7 +15,6 @@ class Login extends React.Component {
       password: '',
       captcha: '',
       captchaSvg: '',
-      language: 'zh-CN'
     }
   }
   render() {
@@ -27,28 +24,20 @@ class Login extends React.Component {
       password,
       captcha,
       captchaSvg,
-      language,
     } = this.state
     return (
       <div className="m-login">
-        <div className="m-language">
-          <Select value={language} onChange={this.handleLanguage.bind(this)}>
-            <Option value="zh-CN">简体中文</Option>
-            <Option value="en-US">Englist</Option>
-            <Option value="zh-TW">繁體中文</Option>
-          </Select>
-        </div>
         <div>
-          {intl.get('login.login')}{count}<button onClick={this.handleBtn.bind(this)}>按钮</button>
+          登录{count}<button onClick={this.handleBtn.bind(this)}>按钮</button>
         </div>
         <div className="m-login-row">
-          <Input placeholder={intl.get('login.usernamePlaceholder')} value={username} onChange={this.handleInput.bind(this, 'username')}></Input>
+          <Input placeholder="请输入用户名" value={username} onChange={this.handleInput.bind(this, 'username')}></Input>
         </div>
         <div className="m-login-row">
-          <Input placeholder={intl.get('login.passwordPlaceholder')} type="password" value={password} onChange={this.handleInput.bind(this, 'password')}></Input>
+          <Input placeholder="请输入密码" type="password" value={password} onChange={this.handleInput.bind(this, 'password')}></Input>
         </div>
         <div className="m-login-row">
-          <Input className="m-login-input-catpcha" placeholder={intl.get('login.catpchaPlaceholder')} value={captcha} onChange={this.handleInput.bind(this, 'captcha')}></Input>
+          <Input className="m-login-input-catpcha" placeholder="请输入验证码" value={captcha} onChange={this.handleInput.bind(this, 'captcha')}></Input>
           <span 
             className="m-captcha" 
             dangerouslySetInnerHTML={{__html: captchaSvg}}
@@ -57,11 +46,11 @@ class Login extends React.Component {
           </span>          
         </div>
         <div className="m-login-row">
-          <Button onClick={this.handleLogin.bind(this)}>{intl.get('login.login')}</Button>
+          <Button onClick={this.handleLogin.bind(this)}>登录</Button>
         </div>
         <div className="m-login-row">
-          <Link to="/register" className="m-link">{intl.get('login.userRegister')}</Link>
-          <Link to="/forgot_password" className="m-link">{intl.get('login.forgotPassword')}</Link>
+          <Link to="/register" className="m-link">用户注册</Link>
+          <Link to="/forgot_password" className="m-link">忘记密码</Link>
         </div>
 			</div>
     );
@@ -71,27 +60,6 @@ class Login extends React.Component {
 Object.assign(Login.prototype, {
   componentDidMount() {
     this.getCaptcha()
-    this.languageInit()
-  },
-  languageInit() {
-    let currentLocale = localStorage.getItem('language') || 'zh-CN'
-    intl.init({
-      currentLocale: currentLocale,    
-      locales: {
-        [currentLocale]: require(`../../i18n/${currentLocale}`).default
-      }
-    }).then(() => {
-    }) 
-    if (!localStorage.getItem('language')) {
-      localStorage.setItem('language', 'zh-CN')
-      this.setState({
-        language: 'zh-CN'
-      })
-    } else {
-      this.setState({
-        language: currentLocale
-      })      
-    } 
   }
 })
 
@@ -134,13 +102,6 @@ Object.assign(Login.prototype, {
         })
       }
     })
-  },
-  handleLanguage(language) {
-    this.setState({
-      language
-    })
-    localStorage.setItem('language', language);
-    window.location.reload()     
   }
 })
 

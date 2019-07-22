@@ -3,7 +3,6 @@ import { fromJS } from 'immutable';
 
 const defaultState = fromJS({
   count: 0,
-  user: '',
 })
 
 export default (state = defaultState, action) => {
