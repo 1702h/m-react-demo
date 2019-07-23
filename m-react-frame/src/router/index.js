@@ -27,21 +27,23 @@ Object.assign(Routers.prototype, {
   renderManagement() {
     return (
       <Route>
-        <Header/>
-        <div className="m-management">
-          <div className="m-sidebar">
-            {
-              config.routerManagement.map((item) => {
-                return <NavLink key={item.path} to={item.path} className="m-management-link" activeClassName="active">{item.text}</NavLink>
-              })
-            }            
-          </div>
-          <div className="m-content-wrap">
-            {
-              config.routerManagement.map((item) => {
-                return <Route key={item.path} exact={item.exact} path={item.path} component={item.component}></Route>
-              })
-            }
+        <div>
+          <Header/>
+          <div className="m-management">
+            <div className="m-sidebar">
+              {
+                config.routerManagement.map((item) => {
+                  return <NavLink key={item.path} to={item.path} className="m-management-link" activeClassName="active">{item.text}</NavLink>
+                })
+              }            
+            </div>
+            <div className="m-content-wrap">
+              {
+                config.routerManagement.map((item) => {
+                  return <Route key={item.path} exact={item.exact} path={item.path} component={item.component}></Route>
+                })
+              }
+            </div>
           </div>
         </div>
       </Route>

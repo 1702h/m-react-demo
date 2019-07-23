@@ -7,6 +7,5 @@ export const loginOut = '/login_out'
 export const getList = '/getlist'
 export const deleteItem = '/deleteItem'
 export const addItem = '/addItem'
-export const getUploadList = '/upload/list'
 
 

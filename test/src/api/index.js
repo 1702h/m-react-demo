@@ -10,6 +10,5 @@ export default {
     loginOut: () => common({url: urls.loginOut, method: 'get'}),
     getList: (url) => common({url: urls.getList + url, method: 'get'}),
     deleteItem: (data) => common({url: urls.deleteItem, method: 'post', data}),
-    addItem:(data) => common({url: urls.addItem, method: 'post', data}),
-    getUploadList: (url) => common({url: urls.getUploadList + url, method: 'get'}),
+    addItem:(data) => common({url: urls.addItem, method: 'post', data})
 }

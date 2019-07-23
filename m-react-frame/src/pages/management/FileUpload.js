@@ -1,8 +1,8 @@
 import React from 'react';
 import { withRouter } from 'react-router-dom'
-import { Button, Input, message } from 'antd'
 import axios from 'axios'
-import { jsEncrypt } from '../../utils/index.js'
+import * as clipboard from "clipboard-polyfill"
+import {Table, Button} from 'antd'
 import Api from '../../api/index.js'
 import * as keyCode from '../../api/keyCode.js'
 import './index.css'
@@ -11,26 +11,34 @@ class FileUpload extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      username: '',
-      password: '',
-      email: '',
+      list: [],
+      current: 1,
+      total: 0,
     }
   }
   render() {
-    let { count } = this.props
     let {
-      username,
-      password,
-      email,
+      list,
+      current,
+      total,
     } = this.state
+    let columns = this.renderColumns()
     return (
       <div className="m-content">
         <div>
-          文件上传
+          <input type="file" value="" onChange={this.handleUpload.bind(this)}/>
         </div>
-        <input type="file" value="" onChange={this.handleUpload.bind(this)}/>
-        <div className="m-login-row">
-          <Button onClick={this.handleRegister.bind(this)}>文件上传</Button>
+        <div>
+          <Table 
+            columns={columns} 
+            dataSource={list} 
+            rowKey="uid"
+            pagination={ total > 10 ? {
+              total: total,
+              current: current,
+              pageSize: 10,
+              onChange: this.handlePage.bind(this)
+            } : false}></Table>
         </div>
 			</div>
     );
@@ -38,27 +46,39 @@ class FileUpload extends React.Component {
 }
 
 Object.assign(FileUpload.prototype, {
-  handleRegister() {
-    let {username, password, email} = this.state
-    console.log(username,password)
-    let data = {
-      username,
-      password: jsEncrypt(password),
-      email
-    }
-    
-    Api.register(data).then((res) => {
-      if (res.code === keyCode.SUCCESS) {
-        console.log(res)
-        message.info(res.message)
-      }
-    }).catch((e) => {
-    })
+  renderColumns () {
+    return [
+      {
+        title: '图片',
+        dataIndex: 'path',
+        render: (text, record, index) => {
+          return <img src={text} className="m-upload-img"></img>
+        }
+      },       
+      {
+        title: '路径',
+        dataIndex: 'originalname',
+        key: 'originalname',
+      },   
+      {
+        title: '操作',
+        render: (text, record, index) => {
+          return <div>
+            <Button onClick={this.handleCopy.bind(this, record)} >复制链接</Button>
+          </div>
+        }
+      }      
+    ]
   },
-  handleUpload(e) {
-    console.log(e)
-    //e.target.files[0]
+  componentDidMount() {
+    this.getUploadList()
+  }
+})
 
+
+//事件
+Object.assign(FileUpload.prototype, {
+  handleUpload(e) {
     const data = new FormData();
     data.append('file', e.target.files[0]);
     const params = `/upload`
@@ -69,43 +89,39 @@ Object.assign(FileUpload.prototype, {
         timeout: 1000 * 60 * 60 * 8
       })
       .then((res) => {
-        console.log(res)           
+        console.log(res)      
+        this.getUploadList()     
       })
       .catch((err) => {
         console.log(err)          
-      }) 
-
-
-    // var files = !!this.files ? this.files : [];
-    // if (!files.length || !window.FileReader) {
-    //     console.log("浏览器不支持HTML5");
-    //     return false;   
-    // };
-    // // 创建一个FormData对象,用来组装一组用 XMLHttpRequest发送请求的键/值对
-    // var fd = new FormData();
-    // // 把 input 标签获取的文件加入 FromData 中
-    // fd.append('file', files[0]);
-
-    // // Ajax
-    // var request = new XMLHttpRequest();
-    // request.open("POST", "http://localhost:5000/upload");
-    // request.send(fd);
-    // request.onreadystatechange = function(){
-    //     if(request.readyState === 4 & request.status === 200){
-    //         console.log("上传成功");
-    //         var response = JSON.parse(request.responseText);
-    //         console.log(response);
-    //     }
-    // }  
-  }
-})
-
-//受控组件
-Object.assign(FileUpload.prototype, {
-  handleInput(field, e) {
-    this.setState({
-      [field]: e.target.value
+      })
+  },
+  getUploadList() {
+    Api.getUploadList(`?page=1&size=10`).then((res) => {
+      console.log(res)
+      if (res.code === keyCode.SUCCESS) {
+        this.setState({
+          list: res.data.list,
+          current: 1,
+          total: res.data.total
+        })
+      }
     })
+  },
+  handleCopy(record) {
+    clipboard.writeText(record.path);
+  },
+  handlePage(current) {
+    Api.getUploadList(`?page=${current}&size=10`).then((res) => {
+      console.log(res)
+      if (res.code === keyCode.SUCCESS) {
+        this.setState({
+          list: res.data.list,
+          current: current,
+          total: res.data.total
+        })
+      }
+    })    
   }
 })
 
