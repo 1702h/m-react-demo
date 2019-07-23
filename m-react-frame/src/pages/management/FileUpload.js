@@ -2,6 +2,7 @@ import React from 'react';
 import { withRouter } from 'react-router-dom'
 import axios from 'axios'
 import * as clipboard from "clipboard-polyfill"
+import { Scrollbars } from 'react-custom-scrollbars'
 import {Table, Button} from 'antd'
 import Api from '../../api/index.js'
 import * as keyCode from '../../api/keyCode.js'
@@ -25,22 +26,26 @@ class FileUpload extends React.Component {
     let columns = this.renderColumns()
     return (
       <div className="m-content">
-        <div>
-          <input type="file" value="" onChange={this.handleUpload.bind(this)}/>
-        </div>
-        <div>
-          <Table 
-            columns={columns} 
-            dataSource={list} 
-            rowKey="uid"
-            pagination={ total > 10 ? {
-              total: total,
-              current: current,
-              pageSize: 10,
-              onChange: this.handlePage.bind(this)
-            } : false}></Table>
-        </div>
-			</div>
+        <Scrollbars>
+          <div className="m-content-inner">
+            <div className="m-upload-input-wrap">
+              <input type="file" value="" onChange={this.handleUpload.bind(this)}/>
+            </div>
+            <div>
+              <Table 
+                columns={columns} 
+                dataSource={list} 
+                rowKey="uid"
+                pagination={ total > 10 ? {
+                  total: total,
+                  current: current,
+                  pageSize: 10,
+                  onChange: this.handlePage.bind(this)
+                } : false}></Table>
+            </div>
+          </div>
+        </Scrollbars>
+      </div>
     );
   }
 }
