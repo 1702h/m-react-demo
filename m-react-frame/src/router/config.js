@@ -7,6 +7,7 @@ const ResetPassword = lazy(() => import('../pages/login/ResetPassword.js'))
 const FileUpload = lazy(() => import('../pages/management/FileUpload.js'))
 const Banner = lazy(() => import('../pages/management/Banner.js'))
 const Article = lazy(() => import('../pages/management/Article.js'))
+const Home = lazy(() => import('../pages/home/Home.js'))
 
 //单页面路由
 const routerSingle = [
@@ -15,10 +16,19 @@ const routerSingle = [
     exact: true,
     component: () => (
       <Suspense fallback={'loading...'}>
-        <Login />
+        <Home />
       </Suspense>
     )
   },
+  {
+    path: '/home',
+    exact: true,
+    component: () => (
+      <Suspense fallback={'loading...'}>
+        <Home />
+      </Suspense>
+    )
+  },  
   {
     path: '/login',
     exact: true,
