@@ -2,7 +2,6 @@ import React from 'react';
 import { withRouter } from 'react-router-dom'
 import { Button, Input, message, Modal, Table} from 'antd';
 import { Scrollbars } from 'react-custom-scrollbars'
-import { jsEncrypt } from '../../utils/index.js'
 import Api from '../../api/index.js'
 import * as keyCode from '../../api/keyCode.js'
 import './index.css'

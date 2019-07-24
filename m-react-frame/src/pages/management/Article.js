@@ -1,7 +1,7 @@
 import React from 'react';
 import { withRouter } from 'react-router-dom'
 import { Button, Input, message } from 'antd';
-import { jsEncrypt } from '../../utils/index.js'
+import { Scrollbars } from 'react-custom-scrollbars'
 import Api from '../../api/index.js'
 import * as keyCode from '../../api/keyCode.js'
 import './index.css'
@@ -10,9 +10,7 @@ class Article extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      username: '',
-      password: '',
-      email: '',
+
     }
   }
   render() {
@@ -24,35 +22,23 @@ class Article extends React.Component {
     } = this.state
     return (
       <div className="m-content">
-        <div>
-        文章
-        </div>
-        <div className="m-login-row">
-          <Button onClick={this.handleRegister.bind(this)}>文章</Button>
-        </div>
+        <Scrollbars>
+          <div className="m-content-inner">
+            <div>创建自己的文章</div>
+            <div className="m-login-row">
+              <Button onClick={this.handleArticle.bind(this)}>创建</Button>
+            </div>            
+          </div>
+        </Scrollbars>        
 			</div>
     );
   }
 }
 
 Object.assign(Article.prototype, {
-  handleRegister() {
-    let {username, password, email} = this.state
-    console.log(username,password)
-    let data = {
-      username,
-      password: jsEncrypt(password),
-      email
-    }
-    
-    Api.register(data).then((res) => {
-      if (res.code === keyCode.SUCCESS) {
-        console.log(res)
-        message.info(res.message)
-      }
-    }).catch((e) => {
-    })
-  },
+  handleArticle() {
+
+  }
 })
 
 //受控组件
