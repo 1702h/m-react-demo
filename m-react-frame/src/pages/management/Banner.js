@@ -32,20 +32,17 @@ class Banner extends React.Component {
             <div className="m-upload-input-wrap">
               <Button onClick={this.handleShowAddBannerModal.bind(this)}>添加</Button>
             </div>
-          </div>
-
-          <Table 
+            <Table 
             columns={columns} 
             dataSource={list} 
             rowKey="uid"
-            pagination={false}></Table>          
-
+            pagination={false}></Table>            
+          </div>
           <Modal
             title="添加"
             visible={addBannerVisible}
             onOk={this.handleAddBanner.bind(this)}
-            onCancel={this.handleHideModal.bind(this)}
-          >
+            onCancel={this.handleHideModal.bind(this)}>
             <div className="m-row">
               <Input 
                 type="text" 

@@ -11,5 +11,6 @@ export const getUploadList = '/upload/list'
 export const addBanner = '/add_banner'
 export const getBannerList = '/banner/list'
 export const deleteBanner = '/banner/delete'
+export const addArticle = '/add/article'
 
 
