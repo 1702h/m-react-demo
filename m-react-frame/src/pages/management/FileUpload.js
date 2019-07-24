@@ -3,7 +3,7 @@ import { withRouter } from 'react-router-dom'
 import axios from 'axios'
 import * as clipboard from "clipboard-polyfill"
 import { Scrollbars } from 'react-custom-scrollbars'
-import {Table, Button} from 'antd'
+import {Table, Button, message} from 'antd'
 import Api from '../../api/index.js'
 import * as keyCode from '../../api/keyCode.js'
 import './index.css'
@@ -61,7 +61,7 @@ Object.assign(FileUpload.prototype, {
         }
       },       
       {
-        title: '路径',
+        title: '文件名',
         dataIndex: 'originalname',
         key: 'originalname',
       },   
@@ -115,6 +115,7 @@ Object.assign(FileUpload.prototype, {
   },
   handleCopy(record) {
     clipboard.writeText(record.path);
+    message.info('复制成功')
   },
   handlePage(current) {
     Api.getUploadList(`?page=${current}&size=10`).then((res) => {

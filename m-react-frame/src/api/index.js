@@ -12,4 +12,7 @@ export default {
     deleteItem: (data) => common({url: urls.deleteItem, method: 'post', data}),
     addItem:(data) => common({url: urls.addItem, method: 'post', data}),
     getUploadList: (url) => common({url: urls.getUploadList + url, method: 'get'}),
+    addBanner: (data) => common({url: urls.addBanner, method: 'post', data}),
+    getBannerList: () => common({url: urls.getBannerList, method: 'get'}),
+    deleteBanner: (data) => common({url: urls.deleteBanner, method: 'post', data})
 }

@@ -4,6 +4,8 @@ import { Provider } from 'react-redux'
 import {BrowserRouter} from 'react-router-dom'
 import Store from './store/index.js'
 import Routers from './router/index.js';
+import './utils/interceptors.js'
+import 'antd/dist/antd.css'
 import './index.css';
 import * as serviceWorker from './serviceWorker';
 

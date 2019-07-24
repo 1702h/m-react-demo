@@ -156,7 +156,15 @@ Object.assign(Login.prototype, {
       language
     })
     localStorage.setItem('language', language);
-    window.location.reload()     
+    let currentLocale = language
+    window.location.reload()    
+    // intl.init({
+    //   currentLocale: currentLocale,    
+    //   locales: {
+    //     [currentLocale]: require(`../../i18n/${currentLocale}`).default
+    //   }
+    // }).then(() => {
+    // })     
   },
   handleEnter(e) {
 		if (e.keyCode === 13) {

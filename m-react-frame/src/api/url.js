@@ -8,5 +8,8 @@ export const getList = '/getlist'
 export const deleteItem = '/deleteItem'
 export const addItem = '/addItem'
 export const getUploadList = '/upload/list'
+export const addBanner = '/add_banner'
+export const getBannerList = '/banner/list'
+export const deleteBanner = '/banner/delete'
 
 

@@ -1,6 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Routers from './router/index.js';
+import { LocaleProvider } from 'antd';
+import zhCN from 'antd/lib/locale-provider/zh_CN';
 import { BrowserRouter } from 'react-router-dom';  //路由
 import { Provider } from 'react-redux';
 import './utils/interceptors.js'
@@ -12,7 +14,9 @@ import * as serviceWorker from './serviceWorker';
 ReactDOM.render(
   <Provider store={Store}>
     <BrowserRouter>
-      <Routers />
+      <LocaleProvider locale={zhCN}>
+        <Routers />
+      </LocaleProvider>
     </BrowserRouter>
   </Provider>
   , document.getElementById('root'));
