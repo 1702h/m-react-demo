@@ -7,6 +7,7 @@ const ResetPassword = lazy(() => import('../pages/login/ResetPassword.js'))
 const FileUpload = lazy(() => import('../pages/management/FileUpload.js'))
 const Banner = lazy(() => import('../pages/management/Banner.js'))
 const Article = lazy(() => import('../pages/management/Article.js'))
+const Copy = lazy(() => import('../pages/management/Copy.js'))
 const Home = lazy(() => import('../pages/home/Home.js'))
 
 //单页面路由
@@ -108,6 +109,16 @@ const routerManagement = [
       </Suspense>
     )
   },    
+  {
+    text: '周考技能',
+    path: '/management/copy',
+    exact: true,
+    component: () => (
+      <Suspense fallback={'loading...'}>
+        <Copy />
+      </Suspense>
+    )
+  },   
 ]
 
 export default {
