@@ -1,5 +1,6 @@
 import React, {lazy, Suspense } from 'react';
 import Login from '../pages/login/Login.js'
+const Register = lazy(() => import('../pages/login/Register.js'))
 
 const routerSingle = [
   {
@@ -25,7 +26,7 @@ const routerSingle = [
     exact: true,
     component: () => (
       <Suspense fallback={'loading...'}>
-        <Login />
+        <Register />
       </Suspense>
     )
   }  

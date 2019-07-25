@@ -8,3 +8,15 @@ export function jsEncrypt(str) {
     let code = encodeURI(data).replace(/\+/g, '%2B')
     return code
 }
+
+export function emailCheck(email) {
+    const reg = /^[a-z0-9]+([._\\-]*[a-z0-9])*@([a-z0-9]+[-a-z0-9]*[a-z0-9]+.){1,63}[a-z0-9]+$/;
+    if (email === '') {
+        return '邮箱不能为空';
+    }
+    if (!reg.test(email)) {
+        return '请输入正确的邮箱格式';
+    } else {
+        return true;
+    }
+}

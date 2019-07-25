@@ -35,8 +35,7 @@ class Banner extends React.Component {
             <Table 
             columns={columns} 
             dataSource={list} 
-            rowKey="uid"
-            pagination={false}></Table>            
+            rowKey="uid"></Table>            
           </div>
           <Modal
             title="添加"
