@@ -8,6 +8,7 @@ const FileUpload = lazy(() => import('../pages/management/FileUpload.js'))
 const Banner = lazy(() => import('../pages/management/Banner.js'))
 const Article = lazy(() => import('../pages/management/Article.js'))
 const Copy = lazy(() => import('../pages/management/Copy.js'))
+const CopyTest = lazy(() => import('../pages/management/CopyTest.js'))
 const Home = lazy(() => import('../pages/home/Home.js'))
 
 //单页面路由
@@ -119,6 +120,16 @@ const routerManagement = [
       </Suspense>
     )
   },   
+  {
+    text: '周考技能测试',
+    path: '/management/copy_test',
+    exact: true,
+    component: () => (
+      <Suspense fallback={'loading...'}>
+        <CopyTest />
+      </Suspense>
+    )
+  },    
 ]
 
 export default {

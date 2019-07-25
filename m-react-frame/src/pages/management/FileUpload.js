@@ -57,7 +57,7 @@ Object.assign(FileUpload.prototype, {
         title: '图片',
         dataIndex: 'path',
         render: (text, record, index) => {
-          return <img src={text} className="m-upload-img"></img>
+          return <span><img src={text} className="m-upload-img"></img></span>
         }
       },       
       {

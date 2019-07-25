@@ -157,14 +157,14 @@ Object.assign(Login.prototype, {
     })
     localStorage.setItem('language', language);
     let currentLocale = language
-    window.location.reload()    
-    // intl.init({
-    //   currentLocale: currentLocale,    
-    //   locales: {
-    //     [currentLocale]: require(`../../i18n/${currentLocale}`).default
-    //   }
-    // }).then(() => {
-    // })     
+    //window.location.reload()    
+    intl.init({
+      currentLocale: currentLocale,    
+      locales: {
+        [currentLocale]: require(`../../i18n/${currentLocale}`).default
+      }
+    }).then(() => {
+    })     
   },
   handleEnter(e) {
 		if (e.keyCode === 13) {
