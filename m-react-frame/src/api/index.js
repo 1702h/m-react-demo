@@ -16,5 +16,7 @@ export default {
     getBannerList: () => common({url: urls.getBannerList, method: 'get'}),
     deleteBanner: (data) => common({url: urls.deleteBanner, method: 'post', data}),
     addArticle: (data) => common({url:urls.addArticle, method: 'post', data}),
-    getArticleList: (data) => common({url: urls.getArticleList, method: 'get', data})
+    getArticleList: (data) => common({url: urls.getArticleList, method: 'get', data}),
+    getArticleDetail: (url) => common({url: urls.getArticleDetail + url, method: 'get'}),
+    editArticle: (data) => common({url: urls.editArticle, method: 'post', data}),
 }

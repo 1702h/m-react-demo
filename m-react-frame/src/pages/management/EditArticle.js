@@ -7,10 +7,13 @@ import * as keyCode from '../../api/keyCode.js'
 import './index.css'
 
 const { TextArea } = Input;
-class Article extends React.Component {
+class EditArticle extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
+      articleId: '',
+      fileName: '',
+      articlePath: '',
       addArticleModalVisible: false,
       addHeaderImageModal: false,
       articleTitle: '',
@@ -23,46 +26,42 @@ class Article extends React.Component {
   }
   render() {
     let {
-      addArticleModalVisible,
+      articleId,
+      fileName,
+      articlePath,
       addHeaderImageModal,
       articleTitle,
       headerImagePath,
-      htmlJson,
       articleTextArea,
-      list,
     } = this.state
-    let columns = this.renderColumns()
     return (
       <div className="m-content">
         <Scrollbars>
           <div className="m-content-inner">
-            <div>创建自己的文章</div>
+            <div>
+              <Button onClick={this.handleGoBack.bind(this)}>返回文章列表</Button>
+            </div>
+            <div className="m-edit-article-title">编辑文章</div>
+            <div>
+              <div>文章ID: {articleId}</div>
+              <div>文件名: {fileName}</div>
+              <div>文章链接: <a href={articlePath} target="_blank">{articlePath}</a></div>
+            </div>
             
             <div className="m-login-row">
-              <Button onClick={this.handleShowAddArticleModal.bind(this)}>添加文章</Button>
-            </div>       
-            <div>
-              <Table 
-                columns={columns} 
-                dataSource={list} 
-                rowKey="uid"
-                scroll={{ x: 900 }}
-                ></Table>                     
-            </div> 
-          </div>
-          <Modal
-            title="添加文章"
-            visible={addArticleModalVisible}
-            onOk={this.handleAddArticle.bind(this)}
-            onCancel={this.handleHideModal.bind(this)}>
-            <div className="m-row">
-              <Input 
-                type="text" 
-                value={articleTitle}
-                placeholder="请输入文章标题"
-                onChange={this.handleInput.bind(this, 'articleTitle')}></Input>
-            </div>         
-          </Modal>          
+              <Button onClick={this.handleShowAddHeaderImageModal.bind(this)}>添加顶部图片</Button>
+            </div>    
+            <div className="m-article-textarea-wrap">
+              <TextArea 
+                rows={10} 
+                value={articleTextArea}
+                onChange={this.handleInput.bind(this, 'articleTextArea')}
+                />
+            </div>   
+            <div className="m-login-row">
+              <Button onClick={this.handleEditArticle.bind(this)}>保存</Button>
+            </div>    
+          </div>          
           <Modal
             title="添加顶部图片"
             visible={addHeaderImageModal}
@@ -90,47 +89,16 @@ class Article extends React.Component {
 }
 
 //生命周期
-Object.assign(Article.prototype, {
-  renderColumns () {
-    return [
-      {
-        title: 'ID',
-        dataIndex: 'uid',
-      },
-      {
-        title: '标题',
-        dataIndex: 'title',
-        width: 100,
-      },       
-      {
-        title: '文章路径',
-        dataIndex: 'path',
-        key: 'path',
-      },
-      {
-        title: '操作',
-        fixed: 'right',   
-        width: 150,
-        render: (text, record, index) => {
-          return <div>
-            <Button onClick={this.handleEditArticle.bind(this, record)}>编辑文章</Button>
-          </div>
-        }
-      }                     
-    ]
-  },   
+Object.assign(EditArticle.prototype, { 
   componentDidMount() {
-    this.getArticleList()
+    this.getArticleById()
   }
 })
 
 //事件
-Object.assign(Article.prototype, {
-  handleShowAddArticleModal() {
-    this.setState({
-      addArticleModalVisible: true,
-      articleTitle: ''
-    })
+Object.assign(EditArticle.prototype, {
+  handleGoBack() {
+    this.props.history.push('/management/article')
   },
   handleShowAddHeaderImageModal() {
     let {htmlJson} = this.state
@@ -171,36 +139,45 @@ Object.assign(Article.prototype, {
       throw err
     }
   },
-  handleAddArticle() {
-    let {articleTitle} = this.state
-    let htmlJson = {
-      articleTitle
-    }
-    let data = {
-      htmlJson
-    }
-    Api.addArticle(data).then((res) => {
-      console.log(res)
-      this.getArticleList()
-      this.handleHideModal()
+  getArticleById() {
+    let {match} = this.props
+    let articleId = match.params.id
+    this.setState({
+      articleId
     })
-  },
-  getArticleList() {
-    Api.getArticleList().then((res) => {
-      if (res.code = keyCode.SUCCESS) {
+    Api.getArticleDetail(`?id=${articleId}`).then((res) => {
+      console.log(res)
+      if (res.code === keyCode.SUCCESS) {
+        let articleTextArea = JSON.stringify(res.data[0].content, null, 2)
         this.setState({
-          list: res.data.list
+          fileName: res.data[0].file_name,
+          articlePath: res.data[0].path,
+          articleTextArea
         })
       }
     })
   },
-  handleEditArticle(record) {
-    this.props.history.push(`/management/edit_article/${record.uid}`)
+  handleEditArticle() {
+    let {articleId, fileName, articleTextArea} = this.state
+    let htmlJson = JSON.parse(articleTextArea)
+    let title = ''
+    if (htmlJson.articleTitle) {
+      title = htmlJson.articleTitle
+    }
+    let data = {
+      articleId,
+      title,
+      fileName,
+      htmlJson,
+    }
+    Api.editArticle(data).then((res) => {
+      console.log(res)
+    })
   }
 })
 
 //受控组件
-Object.assign(Article.prototype, {
+Object.assign(EditArticle.prototype, {
   handleInput(field, e) {
     this.setState({
       [field]: e.target.value
@@ -208,4 +185,4 @@ Object.assign(Article.prototype, {
   },
 })
 
-export default withRouter(Article)
+export default withRouter(EditArticle)

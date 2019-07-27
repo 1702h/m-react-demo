@@ -25,17 +25,14 @@ Object.assign(Routers.prototype, {
     });
   },
   renderManagement() {
+    let sidebar = this.renderSidebar()
     return (
       <Route>
         <div>
           <Header/>
           <div className="m-management">
             <div className="m-sidebar">
-              {
-                config.routerManagement.map((item) => {
-                  return <NavLink key={item.path} to={item.path} className="m-management-link" activeClassName="active">{item.text}</NavLink>
-                })
-              }            
+              {sidebar}            
             </div>
             <div className="m-content-wrap">
               {
@@ -48,6 +45,21 @@ Object.assign(Routers.prototype, {
         </div>
       </Route>
     )
+  },
+  renderSidebar() {
+    let arr = []
+    for(let i = 0; i < config.routerManagement.length; i++) {
+      if (!config.routerManagement[i].isHideLink) {
+        arr.push(
+          <NavLink 
+            key={config.routerManagement[i].path} 
+            to={config.routerManagement[i].path} 
+            className="m-management-link" 
+            activeClassName="active">{config.routerManagement[i].text}</NavLink>
+        )
+      }
+    }
+    return arr
   }
 })
 

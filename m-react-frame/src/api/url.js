@@ -13,5 +13,7 @@ export const getBannerList = '/banner/list'
 export const deleteBanner = '/banner/delete'
 export const addArticle = '/add/article'
 export const getArticleList = '/article/list'
+export const getArticleDetail = '/article_detail'
+export const editArticle = '/article_edit'
 
 

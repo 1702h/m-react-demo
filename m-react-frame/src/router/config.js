@@ -7,6 +7,7 @@ const ResetPassword = lazy(() => import('../pages/login/ResetPassword.js'))
 const FileUpload = lazy(() => import('../pages/management/FileUpload.js'))
 const Banner = lazy(() => import('../pages/management/Banner.js'))
 const Article = lazy(() => import('../pages/management/Article.js'))
+const EditArticle = lazy(() => import('../pages/management/EditArticle.js'))
 const Copy = lazy(() => import('../pages/management/Copy.js'))
 const CopyTest = lazy(() => import('../pages/management/CopyTest.js'))
 const Antd = lazy(() => import('../pages/management/Antd.js'))
@@ -110,7 +111,18 @@ const routerManagement = [
         <Article />
       </Suspense>
     )
-  },    
+  }, 
+  {
+    text: '编辑文章文章',
+    path: '/management/edit_article/:id',
+    exact: true,
+    isHideLink: true,
+    component: () => (
+      <Suspense fallback={'loading...'}>
+        <EditArticle />
+      </Suspense>
+    )
+  },       
   {
     text: '周考技能',
     path: '/management/copy',
