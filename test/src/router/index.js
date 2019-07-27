@@ -1,5 +1,6 @@
 import React from 'react';
 import { Switch, Route, NavLink } from 'react-router-dom';
+import Header from '../pages/management/Header.js'
 import config from "./config.js"
 import './index.css'
 
@@ -27,7 +28,7 @@ Object.assign(Routers.prototype, {
     return (
       <Route>
         <div>
-          <div>header</div>
+          <Header/>
           <div className="m-management">
             <div className="m-sidebar">
               {

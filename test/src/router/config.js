@@ -1,6 +1,9 @@
 import React, {lazy, Suspense } from 'react';
 import Login from '../pages/login/Login.js'
 const Register = lazy(() => import('../pages/login/Register.js'))
+const FileUpload = lazy(() => import('../pages/management/FileUpload.js'))
+const Banner = lazy(() => import('../pages/management/Banner.js'))
+const Home = lazy(() => import('../pages/home/Home.js'))
 
 const routerSingle = [
   {
@@ -8,7 +11,7 @@ const routerSingle = [
     exact: true,
     component: () => (
       <Suspense fallback={'loading...'}>
-        <Login />
+        <Home />
       </Suspense>
     )
   },
@@ -39,7 +42,7 @@ const routerManagement = [
     text: '文件上传',
     component: () => (
       <Suspense fallback={'loading...'}>
-        <Login />
+        <FileUpload />
       </Suspense>
     )
   },
@@ -49,7 +52,7 @@ const routerManagement = [
     text: 'Banner管理',
     component: () => (
       <Suspense fallback={'loading...'}>
-        <Login />
+        <Banner />
       </Suspense>
     )
   }

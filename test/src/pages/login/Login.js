@@ -1,7 +1,7 @@
 import React from 'react';
 import {Input, Button, Select} from 'antd'
 import intl from 'react-intl-universal'
-import {Link} from "react-router-dom"
+import {Link, withRouter} from "react-router-dom"
 import Api from '../../api'
 import {jsEncrypt} from '../../utils'
 import * as keyCode from '../../api/keyCode.js'
@@ -100,7 +100,8 @@ Object.assign(Login.prototype, {
     }
     Api.login(data).then((res) => {
       if (res.code === keyCode.SUCCESS) {
-        alert('登录成功！')
+        localStorage.setItem('token', res.data.token)
+        this.props.history.push('/management/file_upload')
       }
     }).catch(() => {
       this.getCaptcha()
@@ -158,4 +159,4 @@ Object.assign(Login.prototype, {
   }
 })
 
-export default Login
+export default withRouter(Login)
