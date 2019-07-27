@@ -2,6 +2,7 @@ import React from 'react';
 import { withRouter } from 'react-router-dom'
 import { Button, Input, message, Modal, Table } from 'antd';
 import { Scrollbars } from 'react-custom-scrollbars'
+import moment from 'moment'
 import Api from '../../api/index.js'
 import * as keyCode from '../../api/keyCode.js'
 import './index.css'
@@ -12,23 +13,14 @@ class Article extends React.Component {
     super(props)
     this.state = {
       addArticleModalVisible: false,
-      addHeaderImageModal: false,
       articleTitle: '',
-      headerImagePath: '',
-      htmlJson: {
-      },
-      articleTextArea: '',
       list: [],
     }
   }
   render() {
     let {
       addArticleModalVisible,
-      addHeaderImageModal,
       articleTitle,
-      headerImagePath,
-      htmlJson,
-      articleTextArea,
       list,
     } = this.state
     let columns = this.renderColumns()
@@ -36,9 +28,7 @@ class Article extends React.Component {
       <div className="m-content">
         <Scrollbars>
           <div className="m-content-inner">
-            <div>创建自己的文章</div>
-            
-            <div className="m-login-row">
+            <div className="m-article-toolbar">
               <Button onClick={this.handleShowAddArticleModal.bind(this)}>添加文章</Button>
             </div>       
             <div>
@@ -63,26 +53,6 @@ class Article extends React.Component {
                 onChange={this.handleInput.bind(this, 'articleTitle')}></Input>
             </div>         
           </Modal>          
-          <Modal
-            title="添加顶部图片"
-            visible={addHeaderImageModal}
-            onOk={this.handleAddHeaderImage.bind(this)}
-            onCancel={this.handleHideModal.bind(this)}>
-            <div className="m-row">
-              <Input 
-                type="text" 
-                value={articleTitle}
-                placeholder="请输入文章标题"
-                onChange={this.handleInput.bind(this, 'articleTitle')}></Input>
-            </div>                
-            <div className="m-row">
-              <Input 
-                type="text" 
-                value={headerImagePath}
-                placeholder="请输入顶部图片地址"
-                onChange={this.handleInput.bind(this, 'headerImagePath')}></Input>
-            </div>          
-          </Modal>           
         </Scrollbars>        
 			</div>
     );
@@ -106,6 +76,17 @@ Object.assign(Article.prototype, {
         title: '文章路径',
         dataIndex: 'path',
         key: 'path',
+        render: (text, record) => {
+          return <a href={text} target="_blank">{text}</a>
+        }
+      },
+      {
+        title: '创建时间',
+        dataIndex: 'create_time',
+        key: 'create_time',
+        render: (text, record) => {
+          return <span>{moment(text).format('YYYY-MM-DD HH:mm:ss')}</span>
+        }
       },
       {
         title: '操作',
@@ -132,44 +113,11 @@ Object.assign(Article.prototype, {
       articleTitle: ''
     })
   },
-  handleShowAddHeaderImageModal() {
-    let {htmlJson} = this.state
-    this.setState({
-      addHeaderImageModal: true,
-      headerImagePath: htmlJson.headerImagePath
-    })
-  },
   handleHideModal() {
     this.setState({
       addArticleModalVisible: false,
       addHeaderImageModal: false
     })
-  },
-  handleAddHeaderImage() {
-    let {htmlJson, articleTitle, headerImagePath} = this.state
-    htmlJson.headerImagePath = headerImagePath
-    htmlJson.articleTitle = articleTitle
-    this.setState({
-      htmlJson
-    })
-    this.handleHideModal()
-  },
-  handleSave() {
-    try {
-      // let {articleTitle, htmlJson} = this.state
-      // if (typeof htmlJson === 'string') {
-      //   let obj = JSON.parse(htmlJson)
-      //   obj.articleTitle = articleTitle
-      //   this.setState({
-      //     htmlJson: obj
-      //   })
-      // }
-      let { articleTextArea } = this.state
-      let articleObj = JSON.parse(articleTextArea)
-      console.log(articleObj)
-    } catch(err) {
-      throw err
-    }
   },
   handleAddArticle() {
     let {articleTitle} = this.state

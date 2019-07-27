@@ -14,14 +14,12 @@ class EditArticle extends React.Component {
       articleId: '',
       fileName: '',
       articlePath: '',
-      addArticleModalVisible: false,
       addHeaderImageModal: false,
       articleTitle: '',
       headerImagePath: '',
       htmlJson: {
       },
       articleTextArea: '',
-      list: [],
     }
   }
   render() {
@@ -48,8 +46,8 @@ class EditArticle extends React.Component {
               <div>文章链接: <a href={articlePath} target="_blank">{articlePath}</a></div>
             </div>
             
-            <div className="m-login-row">
-              <Button onClick={this.handleShowAddHeaderImageModal.bind(this)}>添加顶部图片</Button>
+            <div className="m-article-toolbar">
+              <Button onClick={this.handleShowAddHeaderImageModal.bind(this)}>标题和顶部图片</Button>
             </div>    
             <div className="m-article-textarea-wrap">
               <TextArea 
@@ -63,7 +61,7 @@ class EditArticle extends React.Component {
             </div>    
           </div>          
           <Modal
-            title="添加顶部图片"
+            title="修改标题和顶部图片"
             visible={addHeaderImageModal}
             onOk={this.handleAddHeaderImage.bind(this)}
             onCancel={this.handleHideModal.bind(this)}>
@@ -100,45 +98,6 @@ Object.assign(EditArticle.prototype, {
   handleGoBack() {
     this.props.history.push('/management/article')
   },
-  handleShowAddHeaderImageModal() {
-    let {htmlJson} = this.state
-    this.setState({
-      addHeaderImageModal: true,
-      headerImagePath: htmlJson.headerImagePath
-    })
-  },
-  handleHideModal() {
-    this.setState({
-      addArticleModalVisible: false,
-      addHeaderImageModal: false
-    })
-  },
-  handleAddHeaderImage() {
-    let {htmlJson, articleTitle, headerImagePath} = this.state
-    htmlJson.headerImagePath = headerImagePath
-    htmlJson.articleTitle = articleTitle
-    this.setState({
-      htmlJson
-    })
-    this.handleHideModal()
-  },
-  handleSave() {
-    try {
-      // let {articleTitle, htmlJson} = this.state
-      // if (typeof htmlJson === 'string') {
-      //   let obj = JSON.parse(htmlJson)
-      //   obj.articleTitle = articleTitle
-      //   this.setState({
-      //     htmlJson: obj
-      //   })
-      // }
-      let { articleTextArea } = this.state
-      let articleObj = JSON.parse(articleTextArea)
-      console.log(articleObj)
-    } catch(err) {
-      throw err
-    }
-  },
   getArticleById() {
     let {match} = this.props
     let articleId = match.params.id
@@ -152,14 +111,23 @@ Object.assign(EditArticle.prototype, {
         this.setState({
           fileName: res.data[0].file_name,
           articlePath: res.data[0].path,
-          articleTextArea
+          articleTextArea,
+          htmlJson: res.data[0].content
         })
       }
     })
   },
   handleEditArticle() {
     let {articleId, fileName, articleTextArea} = this.state
-    let htmlJson = JSON.parse(articleTextArea)
+    let htmlJson
+    try {
+      htmlJson = JSON.parse(articleTextArea)
+    } catch (err) {
+      console.log(err)
+      message.info('文本框里输入的json格式不对！')
+      return
+    }
+    
     let title = ''
     if (htmlJson.articleTitle) {
       title = htmlJson.articleTitle
@@ -172,8 +140,46 @@ Object.assign(EditArticle.prototype, {
     }
     Api.editArticle(data).then((res) => {
       console.log(res)
+      if (res.code === keyCode.SUCCESS) {
+        this.setState({
+          htmlJson
+        })
+        message.info('编辑成功')
+      }
     })
   }
+})
+
+//对话框
+Object.assign(EditArticle.prototype, {
+  handleShowAddHeaderImageModal() {
+    let {htmlJson} = this.state
+    this.setState({
+      addHeaderImageModal: true,
+      articleTitle: htmlJson.articleTitle,
+      headerImagePath: htmlJson.headerImagePath,
+    })
+  },
+  handleHideModal() {
+    this.setState({
+      addHeaderImageModal: false
+    })
+  },
+})
+
+//顶部图片
+Object.assign(EditArticle.prototype, {
+  handleAddHeaderImage() {
+    let {htmlJson, articleTitle, headerImagePath} = this.state
+    htmlJson.headerImagePath = headerImagePath
+    htmlJson.articleTitle = articleTitle
+    let articleTextArea = JSON.stringify(htmlJson, null, 2)
+    this.setState({
+      htmlJson,
+      articleTextArea,
+    })
+    this.handleHideModal()
+  },
 })
 
 //受控组件
