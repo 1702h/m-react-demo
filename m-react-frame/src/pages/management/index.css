@@ -8,11 +8,14 @@
 .m-upload-input-wrap{margin: 20px 0;}
 .m-upload-img{width: 100px;height: 100px;}
 
-.m-row{margin: 20px 0 0;width: 100%;}
+.m-row{display: inline-block; margin: 20px 0 0;width: 100%;white-space: nowrap;}
 
 .m-article-textarea-wrap{margin: 20px 0;}
 .m-edit-article-title{line-height: 50px;font-size: 26px;}
 .m-article-toolbar{margin: 20px 0;}
+.m-toolbar-btn{margin: 0 10px;}
+.m-input-label{display: inline-block;margin: 0 20px 0 0; width: 100px;line-height: 30px; text-align: right;vertical-align: top;}
+.m-input{display: inline-block; width: 350px!important;vertical-align: top;}
 
 
 

@@ -122,7 +122,8 @@ Object.assign(Article.prototype, {
   handleAddArticle() {
     let {articleTitle} = this.state
     let htmlJson = {
-      articleTitle
+      articleTitle,
+      list: [],
     }
     let data = {
       htmlJson

@@ -14,12 +14,18 @@ class EditArticle extends React.Component {
       articleId: '',
       fileName: '',
       articlePath: '',
-      addHeaderImageModal: false,
       articleTitle: '',
       headerImagePath: '',
       htmlJson: {
       },
       articleTextArea: '',
+      paragraph: '',
+      paragraphTitleLevelFirst: '',
+      paragraphTitleLevelSecond: '',
+      addHeaderImageModal: false,
+      addParagraphModal:false,
+      addParagraphTitleLevelFirstModal: false,
+      addParagraphTitleLevelSecondModal: false,
     }
   }
   render() {
@@ -27,10 +33,16 @@ class EditArticle extends React.Component {
       articleId,
       fileName,
       articlePath,
-      addHeaderImageModal,
       articleTitle,
       headerImagePath,
       articleTextArea,
+      paragraph,
+      paragraphTitleLevelFirst,
+      paragraphTitleLevelSecond,
+      addHeaderImageModal,
+      addParagraphModal,
+      addParagraphTitleLevelFirstModal,
+      addParagraphTitleLevelSecondModal,
     } = this.state
     return (
       <div className="m-content">
@@ -47,7 +59,10 @@ class EditArticle extends React.Component {
             </div>
             
             <div className="m-article-toolbar">
-              <Button onClick={this.handleShowAddHeaderImageModal.bind(this)}>标题和顶部图片</Button>
+              <Button className="m-toolbar-btn" onClick={this.handleShowAddHeaderImageModal.bind(this)}>标题和顶部图片</Button>
+              <Button className="m-toolbar-btn" onClick={this.handleShowAddParagraphModal.bind(this)}>添加段落文本</Button>
+              <Button className="m-toolbar-btn" onClick={this.handleShowAddParagraphTitleLevelFirstModal.bind(this)}>添加一级段落标题</Button>
+              <Button className="m-toolbar-btn" onClick={this.handleShowAddParagraphTitleLevelSecondModal.bind(this)}>添加二级段落标题</Button>
             </div>    
             <div className="m-article-textarea-wrap">
               <TextArea 
@@ -59,27 +74,89 @@ class EditArticle extends React.Component {
             <div className="m-login-row">
               <Button onClick={this.handleEditArticle.bind(this)}>保存</Button>
             </div>    
-          </div>          
-          <Modal
-            title="修改标题和顶部图片"
-            visible={addHeaderImageModal}
-            onOk={this.handleAddHeaderImage.bind(this)}
-            onCancel={this.handleHideModal.bind(this)}>
-            <div className="m-row">
-              <Input 
-                type="text" 
-                value={articleTitle}
-                placeholder="请输入文章标题"
-                onChange={this.handleInput.bind(this, 'articleTitle')}></Input>
-            </div>                
-            <div className="m-row">
-              <Input 
-                type="text" 
-                value={headerImagePath}
-                placeholder="请输入顶部图片地址"
-                onChange={this.handleInput.bind(this, 'headerImagePath')}></Input>
-            </div>          
-          </Modal>           
+          </div>        
+          <div>
+            <Modal
+              title="修改标题和顶部图片"
+              visible={addHeaderImageModal}
+              onOk={this.handleAddHeaderImage.bind(this)}
+              onCancel={this.handleHideModal.bind(this)}>
+              <div className="m-row">
+                <span className="m-input-label">
+                  文章标题
+                </span>
+                <Input 
+                  className="m-input"
+                  type="text" 
+                  value={articleTitle}
+                  placeholder="请输入文章标题"
+                  onChange={this.handleInput.bind(this, 'articleTitle')}></Input>
+              </div>                
+              <div className="m-row">
+                <span className="m-input-label">
+                  顶部图片链接
+                </span>                
+                <Input 
+                  className="m-input"
+                  type="text" 
+                  value={headerImagePath}
+                  placeholder="请输入顶部图片地址"
+                  onChange={this.handleInput.bind(this, 'headerImagePath')}></Input>
+              </div>          
+            </Modal>  
+            <Modal
+              title="添加段落"
+              visible={addParagraphModal}
+              onOk={this.handleAddParagraph.bind(this)}
+              onCancel={this.handleHideModal.bind(this)}>
+              <div className="m-row">
+                <span className="m-input-label">
+                  段落文本
+                </span>                
+                <TextArea 
+                  className="m-input"
+                  type="text" 
+                  rows={6}
+                  value={paragraph}
+                  placeholder="请输入段落文本"
+                  onChange={this.handleInput.bind(this, 'paragraph')}></TextArea>
+              </div>          
+            </Modal> 
+            <Modal
+              title="添加一级段落标题"
+              visible={addParagraphTitleLevelFirstModal}
+              onOk={this.handleAddParagraphTitleLevelFirst.bind(this)}
+              onCancel={this.handleHideModal.bind(this)}>
+              <div className="m-row">
+                <span className="m-input-label">
+                  一级段落标题
+                </span>                
+                <Input 
+                  className="m-input"
+                  type="text" 
+                  value={paragraphTitleLevelFirst}
+                  placeholder="请输入一级段落标题"
+                  onChange={this.handleInput.bind(this, 'paragraphTitleLevelFirst')}></Input>
+              </div>          
+            </Modal>  
+            <Modal
+              title="添加二级段落标题"
+              visible={addParagraphTitleLevelSecondModal}
+              onOk={this.handleAddParagraphTitleLevelSecond.bind(this)}
+              onCancel={this.handleHideModal.bind(this)}>
+              <div className="m-row">
+                <span className="m-input-label">
+                  二级段落标题
+                </span>                
+                <Input 
+                  className="m-input"
+                  type="text" 
+                  value={paragraphTitleLevelSecond}
+                  placeholder="请输入二级段落标题"
+                  onChange={this.handleInput.bind(this, 'paragraphTitleLevelSecond')}></Input>
+              </div>          
+            </Modal>                         
+          </div>         
         </Scrollbars>        
 			</div>
     );
@@ -150,7 +227,7 @@ Object.assign(EditArticle.prototype, {
   }
 })
 
-//对话框
+//对话框相关
 Object.assign(EditArticle.prototype, {
   handleShowAddHeaderImageModal() {
     let {htmlJson} = this.state
@@ -160,26 +237,106 @@ Object.assign(EditArticle.prototype, {
       headerImagePath: htmlJson.headerImagePath,
     })
   },
+  handleShowAddParagraphModal(){
+    this.setState({
+      addParagraphModal: true,
+      paragraph: '',
+    })
+  },
+  handleShowAddParagraphTitleLevelFirstModal() {
+    this.setState({
+      addParagraphTitleLevelFirstModal: true,
+      paragraphTitleLevelFirst: '',
+    })
+  },
+  handleShowAddParagraphTitleLevelSecondModal() {
+    this.setState({
+      addParagraphTitleLevelSecondModal: true,
+      paragraphTitleLevelSecond: '',
+    })
+  },
   handleHideModal() {
     this.setState({
-      addHeaderImageModal: false
+      addHeaderImageModal: false,
+      addParagraphModal: false,
+      addParagraphTitleLevelFirstModal: false,
+      addParagraphTitleLevelSecondModal: false,
     })
   },
 })
 
-//顶部图片
+
+
+//顶部图片、段落、段落一级标题
 Object.assign(EditArticle.prototype, {
   handleAddHeaderImage() {
     let {htmlJson, articleTitle, headerImagePath} = this.state
     htmlJson.headerImagePath = headerImagePath
     htmlJson.articleTitle = articleTitle
-    let articleTextArea = JSON.stringify(htmlJson, null, 2)
     this.setState({
       htmlJson,
-      articleTextArea,
     })
+    this.formatTextAreaString(htmlJson)
     this.handleHideModal()
   },
+  handleAddParagraph() {
+    let {htmlJson, paragraph } = this.state
+    if (!htmlJson.list) {
+      htmlJson.list = []
+    }
+    htmlJson.list.push({
+      type: 'p',
+      text: paragraph
+    })    
+
+    this.setState({
+      htmlJson
+    })
+    this.formatTextAreaString(htmlJson)
+    this.handleHideModal()
+  },
+  handleAddParagraphTitleLevelFirst() {
+    let {htmlJson, paragraphTitleLevelFirst } = this.state
+    if (!htmlJson.list) {
+      htmlJson.list = []
+    }
+    htmlJson.list.push({
+      type: 'title-level-1',
+      text: paragraphTitleLevelFirst
+    })    
+
+    this.setState({
+      htmlJson
+    })
+    this.formatTextAreaString(htmlJson)
+    this.handleHideModal()
+  },
+  handleAddParagraphTitleLevelSecond() {
+    let {htmlJson, paragraphTitleLevelSecond } = this.state
+    if (!htmlJson.list) {
+      htmlJson.list = []
+    }
+    htmlJson.list.push({
+      type: 'title-level-2',
+      text: paragraphTitleLevelSecond
+    })    
+
+    this.setState({
+      htmlJson
+    })
+    this.formatTextAreaString(htmlJson)
+    this.handleHideModal()
+  }
+})
+
+//工具
+Object.assign(EditArticle.prototype, {
+  formatTextAreaString(htmlJson) {
+    let articleTextArea = JSON.stringify(htmlJson, null, 2)
+    this.setState({
+      articleTextArea,
+    })
+  }
 })
 
 //受控组件
