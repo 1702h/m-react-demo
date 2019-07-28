@@ -1,6 +1,6 @@
 import React from 'react';
 import { withRouter } from 'react-router-dom'
-import { Button, Input, message, Modal, Table } from 'antd';
+import { Button, Input, message, Modal, Checkbox } from 'antd';
 import { Scrollbars } from 'react-custom-scrollbars'
 import Api from '../../api/index.js'
 import * as keyCode from '../../api/keyCode.js'
@@ -20,6 +20,7 @@ class EditArticle extends React.Component {
       },
       articleTextArea: '',
       paragraph: '',
+      isParagraphStrong: false,
       paragraphTitleLevelFirst: '',
       paragraphTitleLevelSecond: '',
       addHeaderImageModal: false,
@@ -37,6 +38,7 @@ class EditArticle extends React.Component {
       headerImagePath,
       articleTextArea,
       paragraph,
+      isParagraphStrong,
       paragraphTitleLevelFirst,
       paragraphTitleLevelSecond,
       addHeaderImageModal,
@@ -109,6 +111,15 @@ class EditArticle extends React.Component {
               visible={addParagraphModal}
               onOk={this.handleAddParagraph.bind(this)}
               onCancel={this.handleHideModal.bind(this)}>
+              <div className="m-row">
+                <span className="m-input-label">
+                  文本是否加粗
+                </span>
+                <Checkbox 
+                  className="m-checkbox"
+                  checked={isParagraphStrong} 
+                  onChange={this.handleCheckbox.bind(this, 'isParagraphStrong')}>加粗</Checkbox>
+              </div>
               <div className="m-row">
                 <span className="m-input-label">
                   段落文本
@@ -280,12 +291,12 @@ Object.assign(EditArticle.prototype, {
     this.handleHideModal()
   },
   handleAddParagraph() {
-    let {htmlJson, paragraph } = this.state
+    let {htmlJson, paragraph, isParagraphStrong } = this.state
     if (!htmlJson.list) {
       htmlJson.list = []
     }
     htmlJson.list.push({
-      type: 'p',
+      type: isParagraphStrong ? 'p-strong' : 'p',
       text: paragraph
     })    
 
@@ -344,6 +355,11 @@ Object.assign(EditArticle.prototype, {
   handleInput(field, e) {
     this.setState({
       [field]: e.target.value
+    })
+  },
+  handleCheckbox(field, e) {
+    this.setState({
+      [field]: e.target.checked
     })
   },
 })

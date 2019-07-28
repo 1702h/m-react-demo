@@ -70,7 +70,6 @@ Object.assign(Article.prototype, {
       {
         title: '标题',
         dataIndex: 'title',
-        width: 100,
       },       
       {
         title: '文章路径',
