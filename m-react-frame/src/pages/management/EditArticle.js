@@ -252,6 +252,7 @@ Object.assign(EditArticle.prototype, {
     this.setState({
       addParagraphModal: true,
       paragraph: '',
+      isParagraphStrong: false,
     })
   },
   handleShowAddParagraphTitleLevelFirstModal() {
@@ -278,7 +279,7 @@ Object.assign(EditArticle.prototype, {
 
 
 
-//顶部图片、段落、段落一级标题
+//顶部图片、段落、段落一级标题、段落二级标题
 Object.assign(EditArticle.prototype, {
   handleAddHeaderImage() {
     let {htmlJson, articleTitle, headerImagePath} = this.state

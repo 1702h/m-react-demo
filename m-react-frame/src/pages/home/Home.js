@@ -43,11 +43,16 @@ Object.assign(Login.prototype, {
     let arr = []
     for (let i = 0; i < list.length; i++) {
       arr.push(
-        <div 
-          key={list[i].uid}
+        <a 
           className="swiper-slide" 
-          style={{backgroundImage: `url(${list[i].path})`}}>
-          </div>
+          href={list[i].href} 
+          key={list[i].uid} 
+          target='_blank'>
+          <div
+            className="swiper-slide" 
+            style={{backgroundImage: `url(${list[i].path})`}}>
+            </div>
+        </a>
       )
     }
     return arr

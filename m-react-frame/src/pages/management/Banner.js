@@ -11,6 +11,7 @@ class Banner extends React.Component {
     super(props)
     this.state = {
       path: '',
+      href: '',
       remarks: '',
       addBannerVisible: false,
       list: [],
@@ -20,6 +21,7 @@ class Banner extends React.Component {
     let { count } = this.props
     let {
       path,
+      href,
       remarks,
       addBannerVisible,
       list,
@@ -52,6 +54,13 @@ class Banner extends React.Component {
             <div className="m-row">
               <Input 
                 type="text" 
+                value={href}
+                placeholder="请输入banner跳转链接"
+                onChange={this.handleInput.bind(this, 'href')}></Input>
+            </div>            
+            <div className="m-row">
+              <Input 
+                type="text" 
                 value={remarks}
                 placeholder="请输入备注信息"
                 onChange={this.handleInput.bind(this, 'remarks')}></Input>
@@ -73,7 +82,14 @@ Object.assign(Banner.prototype, {
         render: (text, record, index) => {
           return <img src={text} className="m-upload-img"></img>
         }
-      },       
+      },    
+      {
+        title: 'banner跳转链接',
+        dataIndex: 'href',
+        render: (text, record, index) => {
+          return <a href={text} target='_blank'>{text}</a>
+        }
+      },     
       {
         title: '备注信息',
         dataIndex: 'remarks',
@@ -100,6 +116,7 @@ Object.assign(Banner.prototype, {
     this.setState({
       addBannerVisible: true,
       path: '',
+      href: '',
       remarks: '',
     })
   },
@@ -109,9 +126,10 @@ Object.assign(Banner.prototype, {
     })
   },
   handleAddBanner() {
-    let {path, remarks} = this.state
+    let {path, href, remarks} = this.state
     let data = {
       path,
+      href,
       remarks,
     }
     
